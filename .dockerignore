@@ -1,0 +1,7 @@
+anchor/
+build/
+.idea/
+offline_data/
+packaging/
+resouces/
+venv/
