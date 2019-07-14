@@ -21,3 +21,5 @@ $inkscape -z -e "$PWD/$output_name.iconset/icon_512x512@2x.png" -w 1024 -h 1024 
 iconutil -c icns "$output_name.iconset"
 rm -R "$output_name.iconset"
 mv $output_name.icns packaging/data/icons/
+
+$inkscape -z -e "$PWD/anchor/images/${output_name}.png" -w 317 -h 80 "$svg_file"
