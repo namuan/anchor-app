@@ -6,7 +6,8 @@ svg_file=$1
 output_name=$2
 
 set -e
-mkdir $output_name.iconset
+test -d "$output_name.iconset" && rm -R "$output_name.iconset"
+mkdir "$output_name.iconset"
 $inkscape -z -e "$PWD/$output_name.iconset/icon_16x16.png"      -w   16 -h   16 "$svg_file"
 $inkscape -z -e "$PWD/$output_name.iconset/icon_16x16@2x.png"   -w   32 -h   32 "$svg_file"
 $inkscape -z -e "$PWD/$output_name.iconset/icon_32x32.png"      -w   32 -h   32 "$svg_file"
