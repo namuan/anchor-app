@@ -3,13 +3,13 @@
 block_cipher = None
 
 a = Analysis(
-    ['run_clippy.py'],
+    ['anchor/application.py'],
     pathex=['.'],
     binaries=[],
     datas=[
-        ('clippy/data', 'clippy/data'),
-        ('clippy/media', 'clippy/media'),
+        ('anchor/images', 'anchor/images'),
         ('assets', 'assets'),
+        ('offline_data', 'offline_data'),
     ],
     hiddenimports=[],
     hookspath=[],
@@ -28,7 +28,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='Clippy',
+    name='Anchor',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -39,7 +39,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon='assets/icon.ico',
+    icon='assets/icon.icns',
 )
 coll = COLLECT(
     exe,
@@ -49,11 +49,11 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='Clippy',
+    name='Anchor',
 )
 app = BUNDLE(
     coll,
-    name='Clippy.app',
+    name='Anchor.app',
     icon='assets/icon.icns',
-    bundle_identifier='com.namuan.clippy',
+    bundle_identifier='com.namuan.anchor',
 )
