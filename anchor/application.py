@@ -82,16 +82,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         update_available = True if latest > current else False
         logging.info(f"Update Available ({latest} > {current}) ? ({update_available}) Enable Toolbar Icon")
         if update_available:
-            toolbar_actions = self.tool_bar.actions()
-            updates_action = next(act for act in toolbar_actions if act.text() == 'Update Available')
-            if updates_action:
-                updates_action.setIcon(QIcon("images:download-48.png"))
-                updates_action.setEnabled(True)
+            self.tool_bar_update_available.setIcon(QIcon("images:download-48.png"))
+            self.tool_bar_update_available.setEnabled(True)
 
-    def open_releases_page(self) -> None:
+    def open_releases_page(self, checked=False) -> None:
         QDesktopServices.openUrl(self.releases_page)
 
-    def refresh_all_tickets(self):
+    def refresh_all_tickets(self, checked=False):
         self.presenter.refresh_all_tickets()
 
     def show_progress_dialog(self, message):

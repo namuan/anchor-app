@@ -61,4 +61,4 @@ class ConfigPresenter:
         self.view.txt_jira_password.setText(jira_password)
         check_updates = app_settings.load_updates_configuration()
         self.view.chk_updates_startup.setChecked(check_updates)
-        self.view.show()
+        self.view.exec()

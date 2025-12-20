@@ -33,7 +33,8 @@ class CoreSettings:
             logging.handlers.RotatingFileHandler(
                 self.app_dir.joinpath(log_file),
                 maxBytes=1000000, backupCount=1
-            )
+            ),
+            logging.StreamHandler()
         ]
 
         logging.basicConfig(

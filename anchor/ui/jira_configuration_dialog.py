@@ -16,5 +16,5 @@ class JiraConfigurationDialog(QDialog, Ui_Dialog):
         # @todo: Add validator
         # https://snorfalorpagus.net/blog/2014/08/09/validating-user-input-in-pyqt4-using-qvalidator/
 
-    def show_dialog(self):
+    def show_dialog(self, checked=False):
         self.presenter.load_configuration_dialog()
