@@ -1,14 +1,16 @@
 import pytest
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QDialog, QFileDialog
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QDialog, QFileDialog
 
 from anchor import application
 
 
 @pytest.fixture
-def window(qtbot):
+def window(qtbot, mocker):
     """Pass the application to the test functions via a pytest fixture."""
+    # Mock the jira_configured method to return True to prevent JIRA config dialog
+    mocker.patch('anchor.core.core_settings.CoreSettings.jira_configured', return_value=True)
     new_window = application.MainWindow()
     qtbot.add_widget(new_window)
     new_window.show()
