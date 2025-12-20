@@ -177,4 +177,4 @@ class Ui_MainWindow(object):
         self.txt_ticket_notes.setPlaceholderText(_translate("MainWindow", "Add your notes here ..."))
 
 from PyQt5 import QtWebEngineWidgets
-import resources_rc
+from anchor import resources_rc

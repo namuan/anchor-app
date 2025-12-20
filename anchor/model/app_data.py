@@ -154,3 +154,7 @@ class AppData:
 
     def update_branch(self, workspace_dir):
         self.signals.branch_changed.emit(workspace_dir)
+
+
+def create_or_open(db_path):
+    return AppData(TinyDB(db_path))

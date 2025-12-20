@@ -140,8 +140,8 @@ def main():
     configure_theme(application)
 
     desktop = QDesktopWidget().availableGeometry()
-    width = (desktop.width() - window.width()) / 2
-    height = (desktop.height() - window.height()) / 2
+    width = int((desktop.width() - window.width()) / 2)
+    height = int((desktop.height() - window.height()) / 2)
     window.show()
     window.move(width, height)
     sys.exit(application.exec_())

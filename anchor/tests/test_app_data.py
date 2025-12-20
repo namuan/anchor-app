@@ -9,7 +9,7 @@ class TestAppData(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.app_data = create_or_open("test.json")
-        cls.app_data.db.purge_tables()
+        cls.app_data.db.drop_tables()
 
     def test_add_app_to_ticket(self):
         # setup
