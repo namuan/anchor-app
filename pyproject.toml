@@ -9,8 +9,8 @@ classifiers = [
 ]
 dependencies = [
     "gitpython",
-    "pyqt5",
-    "pyqtwebengine",
+    "pyqt6",
+    "pyqt6-webengine>=6.10.0",
     "requests",
     "requests-cache",
     "tinydb",

@@ -1,7 +1,7 @@
 import logging
 
-from PyQt5 import QtWidgets
-from PyQt5.QtGui import QIcon
+from PyQt6 import QtWidgets
+from PyQt6.QtGui import QIcon
 
 from anchor.core.core_settings import app_settings
 from anchor.core.jira_interactor import JiraInteractor
@@ -16,7 +16,7 @@ class TicketsListPresenter:
         self.jira_interactor = JiraInteractor()
         app_settings.app_data.signals.index_changed.connect(self.refresh)
         app_settings.app_data.signals.ticket_transition_changed.connect(self.refresh_ticket)
-        self.story_icon = QIcon(":/images/notifier-48.png")
+        self.story_icon = QIcon("images:notifier-48.png")
 
     def refresh(self):
         self.tickets_list_widget.clear()

@@ -1,6 +1,6 @@
 import logging
 
-from PyQt5.QtWidgets import QApplication, qApp
+from PyQt6.QtWidgets import QApplication
 
 from anchor.core.core_settings import app_settings
 from anchor.model.app_data import Ticket
@@ -22,7 +22,7 @@ class TicketContentPresenter:
         self.lbl_title.setText(self.no_tickets_selected_title)
         app_settings.app_data.signals.ticket_changed.connect(self.refresh)
         self.parent_view.btn_copy_ticket.clicked.connect(self.ticket_to_clipboard)
-        qApp.focusChanged.connect(self.ticket_notes_changed)
+        QApplication.instance().focusChanged.connect(self.ticket_notes_changed)
 
     def ticket_notes_changed(self, old, new):
         if old is not self.txt_ticket_notes:
@@ -39,8 +39,8 @@ class TicketContentPresenter:
 
     def ticket_to_clipboard(self):
         clipboard = QApplication.clipboard()
-        clipboard.clear(mode=clipboard.Clipboard)
-        clipboard.setText(self.selected_ticket.ticket_number, mode=clipboard.Clipboard)
+        clipboard.clear(mode=clipboard.Mode.Clipboard)
+        clipboard.setText(self.selected_ticket.ticket_number, mode=clipboard.Mode.Clipboard)
 
     def refresh(self, ticket):
         self.selected_ticket = ticket

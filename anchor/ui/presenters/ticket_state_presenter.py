@@ -1,5 +1,5 @@
 import logging
-from PyQt5 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 
 from anchor.core.core_settings import app_settings
 from anchor.core.jira_interactor import JiraInteractor

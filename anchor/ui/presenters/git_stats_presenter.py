@@ -1,7 +1,7 @@
 import logging
 import os
 
-from PyQt5.QtWidgets import QFileDialog
+from PyQt6.QtWidgets import QFileDialog
 
 from anchor.core import truncate, abbreviate
 from anchor.core.core_settings import app_settings

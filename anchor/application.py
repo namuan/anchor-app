@@ -1,10 +1,11 @@
 import logging
 import sys
 import traceback
+import os
 
-from PyQt5.QtCore import QUrl
-from PyQt5.QtGui import QDesktopServices, QCloseEvent, QIcon
-from PyQt5.QtWidgets import qApp, QApplication, QDesktopWidget, QFileDialog, QMainWindow, QToolBar
+from PyQt6.QtCore import QUrl, QDir
+from PyQt6.QtGui import QDesktopServices, QCloseEvent, QIcon
+from PyQt6.QtWidgets import QApplication, QFileDialog, QMainWindow, QToolBar
 
 import anchor
 from anchor.ui.configuration_dialog import ConfigurationDialog
@@ -25,7 +26,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.resize(1024, 768)
         self.setWindowTitle('Anchor App - Improving development workflow')
-        self.setWindowIcon(QIcon(":/images/anchor.png"))
+        self.setWindowIcon(QIcon("images:anchor.png"))
 
         # Add Components on Main Window
         self.updater = Updater(self)
@@ -68,7 +69,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         event.accept()
         self.presenter.shutdown()
         try:
-            qApp.exit(0)
+            QApplication.instance().exit(0)
         except:
             pass
 
@@ -84,7 +85,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             toolbar_actions = self.tool_bar.actions()
             updates_action = next(act for act in toolbar_actions if act.text() == 'Update Available')
             if updates_action:
-                updates_action.setIcon(QIcon(":/images/download-48.png"))
+                updates_action.setIcon(QIcon("images:download-48.png"))
                 updates_action.setEnabled(True)
 
     def open_releases_page(self) -> None:
@@ -124,27 +125,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         )
 
 
-def configure_theme(application):
-    from anchor.ui.themes.light_theme import LightTheme
-    application.setStyle(LightTheme())
-    application.style().load_stylesheet()
-
-
 def main():
     application = QApplication(sys.argv)
     application.setApplicationVersion(anchor.__version__)
     application.setApplicationName(anchor.__appname__)
     application.setDesktopFileName(anchor.__desktopid__)
 
-    window = MainWindow()
-    configure_theme(application)
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    QDir.addSearchPath('images', os.path.join(base_dir, 'images'))
 
-    desktop = QDesktopWidget().availableGeometry()
+    window = MainWindow()
+
+    desktop = application.primaryScreen().availableGeometry()
     width = int((desktop.width() - window.width()) / 2)
     height = int((desktop.height() - window.height()) / 2)
     window.show()
     window.move(width, height)
-    sys.exit(application.exec_())
+    sys.exit(application.exec())
 
 
 if __name__ == '__main__':

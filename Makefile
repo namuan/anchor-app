@@ -25,6 +25,9 @@ upgrade: ## Upgrade all dependencies to their latest versions
 	@echo "🚀 Upgrading all dependencies"
 	@uv lock --upgrade
 
+uic: ## Converts ui files to python
+	for i in `ls resources/ui/*.ui`; do FNAME=`basename $${i} ".ui"`; uv run pyuic6 $${i} > "anchor/ui/generated/$${FNAME}.py"; done
+
 test: ## Run all unit tests
 	@echo "🚀 Running unit tests"
 	@PYTHONPATH=. uv run pytest -v

@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import (QDialog)
+from PyQt6.QtWidgets import (QDialog)
 
 from anchor.ui.generated.jira_server_dialog import Ui_Dialog
 from anchor.ui.presenters.config_presenter import ConfigPresenter

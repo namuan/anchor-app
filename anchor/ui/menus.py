@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import (QAction, QApplication)
+from PyQt6.QtGui import QAction
+from PyQt6.QtWidgets import QApplication
 
 
 def file_menu(self):

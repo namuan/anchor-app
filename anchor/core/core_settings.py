@@ -1,7 +1,7 @@
 import logging
 import logging.handlers
-from PyQt5.QtCore import QSettings
-from PyQt5.QtWidgets import qApp
+from PyQt6.QtCore import QSettings
+from PyQt6.QtWidgets import QApplication
 from pathlib import Path
 from tinydb import TinyDB
 from typing import Any, Union
@@ -19,19 +19,13 @@ class CoreSettings:
         self.app_data: AppData = None
 
     def init(self):
-        self.app_name = qApp.applicationName().lower()
-        self.app_dir = Path().home().joinpath(
-            'Library'
-        ).joinpath(
-            'Preferences'
-        ).joinpath(
-            self.app_name
-        )
-        self.app_dir.mkdir(exist_ok=True)
-        settings_file = f"{self.app_name}.ini"
-        self.settings = QSettings(self.app_dir.joinpath(settings_file).as_posix(), QSettings.IniFormat)
-
-        self.settings.sync()
+        if self.settings is None:
+            self.app_name = QApplication.applicationName().lower()
+            self.app_dir = Path().home().joinpath('Library').joinpath('Preferences').joinpath(self.app_name)
+            self.app_dir.mkdir(exist_ok=True)
+            settings_file = f"{self.app_name}.ini"
+            self.settings = QSettings(self.app_dir.joinpath(settings_file).as_posix(), QSettings.Format.IniFormat)
+            self.settings.sync()
 
     def init_logger(self):
         log_file = f"{self.app_name}.log"

@@ -1,8 +1,8 @@
 import logging
 import subprocess
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import QStandardItemModel, QStandardItem
+from PyQt6.QtCore import *
+from PyQt6.QtGui import QStandardItemModel, QStandardItem
 
 from anchor.core import truncate
 from anchor.core.core_settings import app_settings

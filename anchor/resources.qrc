@@ -8,6 +8,5 @@
     <file>images/folder-48.png</file>
     <file>images/copy-48.png</file>
     <file>images/anchor.png</file>
-    <file>styles/light.qss</file>
   </qresource>
 </RCC>

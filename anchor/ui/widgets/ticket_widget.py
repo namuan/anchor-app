@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets, QtGui
+from PyQt6 import QtWidgets, QtGui
 
 from anchor.core import abbreviate
 
@@ -20,8 +20,8 @@ class TicketWidget(QtWidgets.QWidget):
         self.lbl_ticket_status.setFlat(True)
         self.lbl_ticket_status.setDisabled(True)
         self.lbl_ticket_status.setSizePolicy(
-            QtWidgets.QSizePolicy.MinimumExpanding,
-            QtWidgets.QSizePolicy.MinimumExpanding
+            QtWidgets.QSizePolicy.Policy.MinimumExpanding,
+            QtWidgets.QSizePolicy.Policy.MinimumExpanding
         )
         self.lbl_ticket_status.setStyleSheet('''
             QPushButton {
@@ -29,7 +29,7 @@ class TicketWidget(QtWidgets.QWidget):
             }
         ''')
         self.lbl_ticket_title = QtWidgets.QLabel()
-        self.lbl_icon.setPixmap(QtGui.QPixmap(":/images/notifier-48.png"))
+        self.lbl_icon.setPixmap(QtGui.QPixmap("images:notifier-48.png"))
 
         self.top_row_layout.addWidget(self.lbl_icon)
         self.top_row_layout.addWidget(self.lbl_ticket_number)

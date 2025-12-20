@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import (QDialog)
+from PyQt6.QtWidgets import (QDialog)
 
 from anchor.ui.generated.progress_dialog import Ui_ProgressDialog
 

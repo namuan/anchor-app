@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import (QDialog)
+from PyQt6.QtWidgets import (QDialog)
 
 from anchor.ui.generated.feature_branch_dialog import Ui_FeatureBranchDialog
 from anchor.ui.presenters import FeatureBranchPresenter

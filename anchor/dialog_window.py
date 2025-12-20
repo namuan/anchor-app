@@ -1,7 +1,7 @@
 import logging
 import sys
-from PyQt5 import QtWidgets
-from PyQt5.QtCore import QStandardPaths, QDir
+from PyQt6 import QtWidgets
+from PyQt6.QtCore import QStandardPaths, QDir
 
 from anchor.ui.updater_dialog import Updater
 from anchor.ui.widgets.ticket_widget import TicketWidget
@@ -42,4 +42,4 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication([])
     window = TicketListWindow()
     window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

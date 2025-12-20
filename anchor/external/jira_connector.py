@@ -3,7 +3,7 @@ import logging
 from enum import Enum
 from operator import itemgetter
 
-from PyQt5.QtCore import QRunnable, QObject, pyqtSignal, pyqtSlot
+from PyQt6.QtCore import QRunnable, QObject, pyqtSignal, pyqtSlot
 
 from anchor.external.jira_apis import JiraApi
 from anchor.model.app_data import Ticket

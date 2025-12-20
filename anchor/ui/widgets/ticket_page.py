@@ -1,5 +1,5 @@
-from PyQt5.QtGui import QDesktopServices
-from PyQt5.QtWebEngineWidgets import QWebEnginePage
+from PyQt6.QtGui import QDesktopServices
+from PyQt6.QtWebEngineCore import QWebEnginePage
 
 
 class WebEnginePage(QWebEnginePage):
