@@ -32,6 +32,7 @@ packages = ["anchor"]
 
 [dependency-groups]
 dev = [
+    "pyinstaller>=6.17.0",
     "pytest",
     "pytest-cov",
     "pytest-faulthandler",
