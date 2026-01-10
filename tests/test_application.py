@@ -11,6 +11,8 @@ def window(qtbot, mocker):
     """Pass the application to the test functions via a pytest fixture."""
     # Mock the jira_configured method to return True to prevent JIRA config dialog
     mocker.patch('anchor.core.core_settings.CoreSettings.jira_configured', return_value=True)
+    # Mock JiraInteractor to prevent background threads
+    mocker.patch('anchor.ui.presenters.main_presenter.JiraInteractor')
     new_window = application.MainWindow()
     qtbot.add_widget(new_window)
     new_window.show()

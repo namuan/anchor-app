@@ -11,7 +11,7 @@ import anchor
 from anchor.ui.configuration_dialog import ConfigurationDialog
 from anchor.ui.feature_branch_dialog import FeatureBranchDialog
 from anchor.ui.generated.base_window import Ui_MainWindow
-from anchor.ui.menus import file_menu
+from anchor.ui.menus import file_menu, help_menu
 from anchor.ui.presenters import *
 from anchor.ui.progress_dialog import ProgressDialog
 from anchor.ui.toolbar import tool_bar_items
@@ -42,6 +42,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # Initialise Components
         file_menu(self)
+        help_menu(self)
         tool_bar_items(self)
 
         # Initialise Presenters

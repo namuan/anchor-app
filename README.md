@@ -42,12 +42,12 @@ Comprehensive documentation is available in the `docs/` directory:
 
 2. Install dependencies:
    ```bash
-   pip install -r requirements.txt
+   uv sync
    ```
 
 3. Run the application:
    ```bash
-   python -m anchor.application
+   uv run anchor-app
    ```
 
 ## Development
@@ -55,8 +55,8 @@ Comprehensive documentation is available in the `docs/` directory:
 To run the tests:
 
 ```bash
-pip install -r requirements.txt
-pytest
+uv sync
+uv run pytest
 ```
 
 For more details on contributing and building the application, please refer to the [Development Guide](docs/development.md).
