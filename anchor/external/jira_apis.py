@@ -1,6 +1,7 @@
 import os
 
-from anchor.external import requester
+from jira import JIRA
+
 from anchor.external.mock_jira_apis import MockJiraApi
 
 is_offline = os.getenv("MOCKED", "false").lower() == "true"
@@ -25,41 +26,50 @@ class JiraApi:
         return jira_api
 
     def connect(self):
-        resource = f"{self.server}/rest/api/2/issue/createmeta"
-        return requester.request_get(resource, self.user, self.password)
+        jira = JIRA(self.server, basic_auth=(self.user, self.password))
+        try:
+            myself = jira.myself()
+            return myself
+        except Exception as e:
+            raise ConnectionError(e)
 
     def get_tickets(self):
-        resource = f"{self.server}/rest/api/2/search"
-        query = {
-            "jql": "assignee=currentUser() AND resolution = Unresolved ORDER BY updated DESC",
-            "expand": [
-                "transitions",
-                "renderedFields"
-            ],
-            "fields": [
-                "id",
-                "key",
-                "description",
-                "summary",
-                "updated",
-                "status"
-            ]
-        }
-
-        return requester.request_post(resource, self.user, self.password, query)
+        jira = JIRA(self.server, basic_auth=(self.user, self.password))
+        
+        jql = "assignee=currentUser() AND resolution = Unresolved ORDER BY updated DESC"
+        fields = "id,key,description,summary,updated,status"
+        expand = "transitions,renderedFields"
+        
+        issues = jira.search_issues(jql_str=jql, fields=fields, expand=expand, json_result=True)
+        return issues
 
     def get_ticket(self, resource):
-        params = {
-            "expand": "transitions,renderedFields",
-            "fields": "id,key,description,summary,updated,status",
-        }
-        return requester.request_get(resource, self.user, self.password, params)
+        # Resource is expected to be the 'self' URL in the old implementation
+        # But for JIRA lib, it's easier to use the key or ID. 
+        # However, the calling code passes 'ticket_url' as 'resource'.
+        # We need to extract the key from the URL or just assume the caller might change.
+        # Looking at usage in jira_connector.py: 
+        # jira_ticket_json = JiraApi.auth(*app_settings.load_jira_configuration()).get_ticket(ticket_url)
+        # It passes ticket_url.
+        # We need to parse the key from the url or find a way to fetch by self url.
+        # Actually, jira.issue() takes a key or ID.
+        # Let's try to extract the key from the resource URL if possible, or just fail if it's not a key.
+        # BUT wait, the old implementation did a GET on the resource URL.
+        # If we want to be safe, we should extract the ticket key.
+        # A simple split could work if the URL structure is standard.
+        # resource example: .../rest/api/2/issue/TECH-0
+        
+        ticket_id = resource.split('/')[-1]
+        
+        jira = JIRA(self.server, basic_auth=(self.user, self.password))
+        
+        fields = "id,key,description,summary,updated,status"
+        expand = "transitions,renderedFields"
+        
+        issue = jira.issue(ticket_id, fields=fields, expand=expand)
+        return issue.raw
 
     def update_transition(self, ticket_id, transition_id):
-        resource = f"{self.server}/rest/api/2/issue/{ticket_id}/transitions"
-        request_body = {
-            "transition": {
-                "id": transition_id
-            }
-        }
-        return requester.request_post(resource, self.user, self.password, request_body)
+        jira = JIRA(self.server, basic_auth=(self.user, self.password))
+        jira.transition_issue(ticket_id, transition=transition_id)
+        return {}
