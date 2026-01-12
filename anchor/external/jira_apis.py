@@ -35,20 +35,20 @@ class JiraApi:
 
     def get_tickets(self):
         jira = JIRA(self.server, basic_auth=(self.user, self.password))
-        
-        jql = "assignee=currentUser() AND resolution = Unresolved ORDER BY updated DESC"
+
+        jql = "project = FRN AND status IN (New, Ready, \"In Progress\") AND type IN (Story, Bug)"
         fields = "id,key,description,summary,updated,status"
         expand = "transitions,renderedFields"
-        
+
         issues = jira.search_issues(jql_str=jql, fields=fields, expand=expand, json_result=True)
         return issues
 
     def get_ticket(self, resource):
         # Resource is expected to be the 'self' URL in the old implementation
-        # But for JIRA lib, it's easier to use the key or ID. 
+        # But for JIRA lib, it's easier to use the key or ID.
         # However, the calling code passes 'ticket_url' as 'resource'.
         # We need to extract the key from the URL or just assume the caller might change.
-        # Looking at usage in jira_connector.py: 
+        # Looking at usage in jira_connector.py:
         # jira_ticket_json = JiraApi.auth(*app_settings.load_jira_configuration()).get_ticket(ticket_url)
         # It passes ticket_url.
         # We need to parse the key from the url or find a way to fetch by self url.
@@ -58,14 +58,14 @@ class JiraApi:
         # If we want to be safe, we should extract the ticket key.
         # A simple split could work if the URL structure is standard.
         # resource example: .../rest/api/2/issue/TECH-0
-        
+
         ticket_id = resource.split('/')[-1]
-        
+
         jira = JIRA(self.server, basic_auth=(self.user, self.password))
-        
+
         fields = "id,key,description,summary,updated,status"
         expand = "transitions,renderedFields"
-        
+
         issue = jira.issue(ticket_id, fields=fields, expand=expand)
         return issue.raw
 

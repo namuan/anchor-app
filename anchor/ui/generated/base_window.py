@@ -137,7 +137,7 @@ class Ui_MainWindow(object):
         self.btn_add_application = QtWidgets.QPushButton(parent=self.centralwidget)
         self.btn_add_application.setObjectName("btn_add_application")
         self.gridLayout.addWidget(self.btn_add_application, 10, 5, 1, 1)
-        self.web_engine = QtWebEngineWidgets.QWebEngineView(parent=self.centralwidget)
+        self.web_engine = QtWidgets.QTextEdit(parent=self.centralwidget)
         self.web_engine.setObjectName("web_engine")
         self.gridLayout.addWidget(self.web_engine, 1, 1, 8, 1)
         self.txt_ticket_notes = QtWidgets.QPlainTextEdit(parent=self.centralwidget)

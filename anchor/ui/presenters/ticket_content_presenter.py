@@ -1,14 +1,14 @@
 import logging
+from typing import Optional
 
 from PyQt6.QtWidgets import QApplication
 
 from anchor.core.core_settings import app_settings
 from anchor.model.app_data import Ticket
-from anchor.ui.widgets.ticket_page import WebEnginePage
 
 
 class TicketContentPresenter:
-    selected_ticket: Ticket
+    selected_ticket: Optional[Ticket]
     no_tickets_selected_title: str = "👈  Please select a ticket"
 
     def __init__(self, parent_view):
@@ -17,8 +17,7 @@ class TicketContentPresenter:
         self.lbl_title = self.parent_view.lbl_ticket_title
         self.txt_ticket_notes = self.parent_view.txt_ticket_notes
         self.web_engine = self.parent_view.web_engine
-        self.web_page = WebEnginePage(self.web_engine)
-        self.web_engine.setPage(self.web_page)
+        self.web_engine.setReadOnly(True)
         self.lbl_title.setText(self.no_tickets_selected_title)
         app_settings.app_data.signals.ticket_changed.connect(self.refresh)
         self.parent_view.btn_copy_ticket.clicked.connect(self.ticket_to_clipboard)
@@ -28,7 +27,7 @@ class TicketContentPresenter:
         if old is not self.txt_ticket_notes:
             return
 
-        if not self.selected_ticket and len(self.txt_ticket_notes.toPlainText()) <= 0:
+        if not self.selected_ticket:
             return
 
         updated_notes = self.txt_ticket_notes.toPlainText()
@@ -38,6 +37,8 @@ class TicketContentPresenter:
         app_settings.app_data.add_ticket_notes(self.selected_ticket.ticket_number, updated_notes)
 
     def ticket_to_clipboard(self):
+        if not self.selected_ticket:
+            return
         clipboard = QApplication.clipboard()
         clipboard.clear(mode=clipboard.Mode.Clipboard)
         clipboard.setText(self.selected_ticket.ticket_number, mode=clipboard.Mode.Clipboard)
@@ -56,4 +57,6 @@ class TicketContentPresenter:
         else:
             self.lbl_title.setText(ticket_title)
         self.txt_ticket_notes.setPlainText(self.selected_ticket.ticket_notes)
-        self.web_engine.setHtml(self.selected_ticket.ticket_description)
+        description_html = self.selected_ticket.ticket_description or "<p>Ticket description is unavailable at the moment.</p>"
+        logging.info(f"Ticket description for {self.selected_ticket.ticket_number}: {description_html}")
+        self.web_engine.setHtml(description_html)
