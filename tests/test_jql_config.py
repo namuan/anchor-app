@@ -1,4 +1,5 @@
 import tempfile
+import shutil
 from pathlib import Path
 from unittest import TestCase
 
@@ -13,6 +14,10 @@ class TestJQLConfiguration(TestCase):
         self.temp_dir = tempfile.mkdtemp()
         self.settings_file = Path(self.temp_dir) / "test_settings.ini"
         self.settings = QSettings(str(self.settings_file), QSettings.Format.IniFormat)
+
+    def tearDown(self):
+        """Clean up temporary directory."""
+        shutil.rmtree(self.temp_dir, ignore_errors=True)
 
     def test_save_and_load_jql(self):
         """Test that JQL can be saved and loaded from settings."""
