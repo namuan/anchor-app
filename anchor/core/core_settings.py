@@ -55,17 +55,21 @@ class CoreSettings:
         self.settings.setValue('windowState', window_state)
         self.settings.sync()
 
-    def save_configuration(self, jira_server, jira_username, jira_password, updates_check):
+    def save_configuration(self, jira_server, jira_username, jira_password, updates_check, jira_jql):
         self.settings.setValue('server', jira_server)
         self.settings.setValue('username', jira_username)
         self.settings.setValue('password', rot13(jira_password))
         self.settings.setValue('startupCheck', updates_check)
+        self.settings.setValue('jql', jira_jql)
         self.settings.sync()
 
     def load_jira_configuration(self):
+        default_jql = 'project = FRN AND status IN (New, Ready, "In Progress") AND type IN (Story, Bug)'
         return \
-            self.settings.value("server", ""), self.settings.value("username", ""), tor31(
-                self.settings.value("password", ""))
+            self.settings.value("server", ""), \
+            self.settings.value("username", ""), \
+            tor31(self.settings.value("password", "")), \
+            self.settings.value("jql", default_jql)
 
     def load_updates_configuration(self):
         return str_to_bool(self.settings.value("startupCheck", True))

@@ -49,7 +49,7 @@ class TicketContentPresenter:
         logging.info("Refreshing data for ticket content")
         self.parent_view.btn_copy_ticket.setEnabled(self.selected_ticket is not None)
 
-        jira_server, _, _ = app_settings.load_jira_configuration()
+        jira_server, _, _, _ = app_settings.load_jira_configuration()
         ticket_browse_link = f"{jira_server}/browse/{self.selected_ticket.ticket_number}"
         ticket_title = f"<a href=\"{ticket_browse_link}\">{self.selected_ticket.ticket_number}</a> - {self.selected_ticket.ticket_title}"
         if not self.selected_ticket:
