@@ -43,22 +43,25 @@ class ConfigPresenter:
         jira_server = self.view.txt_jira_server.text()
         jira_username = self.view.txt_jira_user.text()
         jira_password = self.view.txt_jira_password.text()
+        jira_jql = self.view.txt_jira_jql.text()
         updates_check = self.view.chk_updates_startup.isChecked()
         app_settings.save_configuration(
             jira_server,
             jira_username,
             jira_password,
-            updates_check
+            updates_check,
+            jira_jql
         )
         self.parent_view.status_bar.showMessage("Ready", 5000)
         self.parent_view.refresh_all_tickets()
         self.view.accept()
 
     def load_configuration_dialog(self):
-        jira_server, jira_user, jira_password = app_settings.load_jira_configuration()
+        jira_server, jira_user, jira_password, jira_jql = app_settings.load_jira_configuration()
         self.view.txt_jira_server.setText(jira_server)
         self.view.txt_jira_user.setText(jira_user)
         self.view.txt_jira_password.setText(jira_password)
+        self.view.txt_jira_jql.setText(jira_jql)
         check_updates = app_settings.load_updates_configuration()
         self.view.chk_updates_startup.setChecked(check_updates)
         self.view.exec()

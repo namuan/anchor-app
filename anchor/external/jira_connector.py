@@ -38,7 +38,8 @@ class JiraConnector(QRunnable):
         transition_id = self.args.get('transition').get('id')
         logging.info(f"Updating ticket {ticket_id} transition to {transition_id}")
         try:
-            JiraApi.auth(*app_settings.load_jira_configuration()).update_transition(ticket_id, transition_id)
+            jira_server, jira_user, jira_password, _ = app_settings.load_jira_configuration()
+            JiraApi.auth(jira_server, jira_user, jira_password).update_transition(ticket_id, transition_id)
             result = {
                 'ticket': ticket
             }
@@ -53,7 +54,8 @@ class JiraConnector(QRunnable):
     def fetch_all_tickets(self):
         logging.info("Fetching all tickets")
         try:
-            all_jira_tickets = JiraApi.auth(*app_settings.load_jira_configuration()).get_tickets()
+            jira_server, jira_user, jira_password, jira_jql = app_settings.load_jira_configuration()
+            all_jira_tickets = JiraApi.auth(jira_server, jira_user, jira_password).get_tickets(jira_jql)
             tickets = [Ticket.from_issue_json(t) for t in all_jira_tickets.get('issues', [])]
             result = {
                 'tickets': tickets
@@ -70,7 +72,8 @@ class JiraConnector(QRunnable):
         ticket_url = self.args['ticket_url']
         logging.info(f"Fetching ticket details - {ticket_url}")
         try:
-            jira_ticket_json = JiraApi.auth(*app_settings.load_jira_configuration()).get_ticket(ticket_url)
+            jira_server, jira_user, jira_password, _ = app_settings.load_jira_configuration()
+            jira_ticket_json = JiraApi.auth(jira_server, jira_user, jira_password).get_ticket(ticket_url)
             ticket = Ticket.from_issue_json(jira_ticket_json)
             t = {
                 'ticket': ticket

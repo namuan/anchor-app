@@ -32,7 +32,7 @@ class MockJiraApi:
         logging.debug("Connecting to Mock JIRA Api")
         return {}
 
-    def get_tickets(self):
+    def get_tickets(self, jql=None):
         logging.debug("Getting all tickets using Mock JIRA Api")
         return {
             "issues": self.tickets

@@ -33,10 +33,11 @@ class JiraApi:
         except Exception as e:
             raise ConnectionError(e)
 
-    def get_tickets(self):
+    def get_tickets(self, jql=None):
         jira = JIRA(self.server, basic_auth=(self.user, self.password))
 
-        jql = "project = FRN AND status IN (New, Ready, \"In Progress\") AND type IN (Story, Bug)"
+        if jql is None:
+            jql = "project = FRN AND status IN (New, Ready, \"In Progress\") AND type IN (Story, Bug)"
         fields = "id,key,description,summary,updated,status"
         expand = "transitions,renderedFields"
 
